@@ -26,9 +26,27 @@ const SET_SEND_STATUS = (status) => {
     }
 }
 
+const SET_IMAGE_WITH_COMMENTS = (id, data) => {
+    return {
+        type: "SET_IMAGE_WITH_COMMENTS",
+        payload: {
+            id, data
+        }
+    }
+}
+
+const GET_IMAGE = (id) => {
+    return {
+        type: "GET_IMAGE",
+        payload: id
+    }
+}
+
 export {
     GET_DATA,
     ERROR,
     SEND_COMMENT,
-    SET_SEND_STATUS
+    SET_SEND_STATUS,
+    GET_IMAGE,
+    SET_IMAGE_WITH_COMMENTS
 }

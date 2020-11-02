@@ -1,9 +1,11 @@
 import {takeEvery, put, call} from "redux-saga/effects";
 import Service from "../service";
-import {SET_SEND_STATUS} from "../actions";
+import {SET_SEND_STATUS, SET_IMAGE_WITH_COMMENTS} from "../actions";
 
 const service = new Service();
 
+
+//---------------------------------------------------   Data Saga
 function fetchData (){
     return service.getAll()
         .then(res => res)
@@ -25,7 +27,7 @@ export function* watchGetData() {
 
 }
 
-//-------------------------------------------------------
+//-------------------------------------------------------  Post Comment Saga
 
 function postComment({id, body}) {
     return service.addComment(id, body)
@@ -45,4 +47,27 @@ function* sendCommentAsync({payload: {id, body}}) {
 
 export function* watchSendComment() {
     yield takeEvery("SEND_COMMENT", sendCommentAsync);
+}
+
+//---------------------------------------------------------  Get Big Image Saga
+
+
+function fetchImage({id}) {
+    return service.getImage(id)
+        .then(res => res)
+}
+
+function* getImageAsync({payload: id}) {
+    try {
+        const data = yield call(fetchImage, {id});
+        yield put(SET_IMAGE_WITH_COMMENTS(id, data))
+    }catch {
+        yield put(SET_IMAGE_WITH_COMMENTS(id, {
+            error: true
+        }))
+    }
+}
+
+export function* watchGetImage() {
+    yield takeEvery("GET_IMAGE", getImageAsync);
 }

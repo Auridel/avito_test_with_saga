@@ -1,7 +1,8 @@
 const initialState = {
     data: [],
     error: false,
-    sendStatus: null
+    sendStatus: null,
+    withComments: {}
 };
 
 const reducer = (state = initialState, action) => {
@@ -17,6 +18,14 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 sendStatus: action.payload
+            }
+        }
+        case "SET_IMAGE_WITH_COMMENTS": {
+            return {
+                ...state,
+                withComments: {
+                    ...state.withComments, [action.payload.id]: action.payload.data
+                }
             }
         }
         case "ERROR": {
