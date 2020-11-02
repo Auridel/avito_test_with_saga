@@ -1,4 +1,6 @@
 import React, {useState, useEffect} from "react";
+import {connect} from "react-redux";
+import {GET_DATA} from "../../actions";
 import Service from "../../service";
 import Loader from "../loader/loader";
 import Image from "../image/image";
@@ -9,7 +11,7 @@ import "./app.scss";
 
 const service = new Service();
 
-const App = () => {
+const App = ({GET_DATA}) => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
     const [data, setData] = useState([]);
@@ -17,6 +19,7 @@ const App = () => {
 
     useEffect(() =>{
         if(!data.length){
+            GET_DATA();
             setLoading(true);
             service.getAll()
                 .then(res => {
@@ -63,4 +66,13 @@ const App = () => {
     )
 };
 
-export default App;
+const mapStateToProps = (state) => {
+    return{
+        data: state.data
+    }
+}
+const mapDispatchToProps = {
+    GET_DATA
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
