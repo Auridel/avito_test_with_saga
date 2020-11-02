@@ -32,7 +32,7 @@ const Modal = ({id, trigger, GET_IMAGE, items}) => {
             <div className="modal">
                 {loading? <Loader/> : ""}
                 {error? <Error/> : ""}
-                {items[id]?
+                {(items[id] && !items[id].error)?
                     <>
                         <button
                             onClick={() => trigger(null)}
