@@ -1,4 +1,4 @@
-import {takeEvery, put, call} from "redux-saga/effects";
+import {takeEvery, put, call, delay} from "redux-saga/effects";
 import Service from "../service";
 import {GET_DATA_ASYNC, SET_SEND_STATUS, SET_IMAGE_WITH_COMMENTS, ERROR} from "../actions";
 
@@ -40,6 +40,8 @@ function* sendCommentAsync({payload: {id, body}}) {
 
         yield call(postComment, {id, body});
         yield put(SET_SEND_STATUS("ok"));
+        yield delay(1000);
+        yield put(SET_SEND_STATUS(null));
     }catch {
         yield put(SET_SEND_STATUS("fail"));
     }
