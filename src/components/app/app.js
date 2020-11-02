@@ -11,26 +11,17 @@ import "./app.scss";
 
 const service = new Service();
 
-const App = ({GET_DATA}) => {
+const App = ({GET_DATA, data, error}) => {
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(false);
-    const [data, setData] = useState([]);
     const [modal, setModal] = useState(null);
 
     useEffect(() =>{
-        if(!data.length){
-            GET_DATA();
+        if(!data.length && !error){
             setLoading(true);
-            service.getAll()
-                .then(res => {
-                    setLoading(false);
-                    setData(res);
-                    setError(false);
-                })
-                .catch(() => {
-                    setLoading(false);
-                    setError(true)
-                })
+            GET_DATA();
+        }
+        if(data || error) {
+            setLoading(false);
         }
     }, [data])
 
@@ -68,7 +59,8 @@ const App = ({GET_DATA}) => {
 
 const mapStateToProps = (state) => {
     return{
-        data: state.data
+        data: state.data,
+        error: state.error
     }
 }
 const mapDispatchToProps = {

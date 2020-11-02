@@ -52,7 +52,7 @@ const Modal = ({id, trigger, service}) => {
                                 }
                             ) : ""}
                         </div>
-                        <AddForm id={id} service={service}/>
+                        <AddForm id={id}/>
                 </>
                 : ""}
             </div>

@@ -1,5 +1,6 @@
 import {takeEvery, put, call} from "redux-saga/effects";
 import Service from "../service";
+import {SET_SEND_STATUS} from "../actions";
 
 const service = new Service();
 
@@ -9,10 +10,39 @@ function fetchData (){
 }
 
 function* getDataAsync() {
-    const data = yield call(fetchData);
-    yield put({type: "GET_DATA_ASYNC", payload: data})
+    try {
+        const data = yield call(fetchData);
+        yield put({type: "GET_DATA_ASYNC", payload: data})
+    }catch {
+        yield put({type: "ERROR"})
+    }
+
+
 }
 
 export function* watchGetData() {
     yield takeEvery("GET_DATA", getDataAsync);
+
+}
+
+//-------------------------------------------------------
+
+function postComment({id, body}) {
+    return service.addComment(id, body)
+        .then(res => res)
+}
+
+function* sendCommentAsync({payload: {id, body}}) {
+    yield put(SET_SEND_STATUS("loading"));
+    try {
+
+        yield call(postComment, {id, body});
+        yield put(SET_SEND_STATUS("ok"));
+    }catch {
+        yield put(SET_SEND_STATUS("fail"));
+    }
+}
+
+export function* watchSendComment() {
+    yield takeEvery("SEND_COMMENT", sendCommentAsync);
 }

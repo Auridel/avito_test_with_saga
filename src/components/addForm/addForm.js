@@ -1,25 +1,23 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
+import {connect} from "react-redux";
+import {SEND_COMMENT} from "../../actions";
 
 import "./addForm.scss";
 
-const AddForm = ({id, service}) => {
+const AddForm = ({id, status, SEND_COMMENT}) => {
     const [data, setData] = useState({name: "", comment: ""})
-    const [status, setStatus] = useState(null);
     const [error, setError] = useState({name: false, comment: false});
+
+    useEffect(() => {
+        if(status === "ok"){
+            setData({name: "", comment: ""});
+        }
+    }, [status])
 
     const sendData = () => {
         if(data.name.trim() && data.comment.trim()) {
             setError({name: false, comment: false});
-            setStatus("loading");
-            service.addComment(id, data)
-                .then(() => {
-                    setStatus("ok");
-                    setData({name: "", comment: ""});
-                })
-                .catch(() => {
-                    setStatus("fail");
-                    setError({...error, load: true})
-                });
+            SEND_COMMENT(id, data);
         }
         else {
             if(!data.name.trim()) setError(prev => {return {...prev, name: true}});
@@ -62,4 +60,13 @@ const AddForm = ({id, service}) => {
     )
 };
 
-export default AddForm;
+const mapStateToProps = (state) => {
+    return {
+        status: state.sendStatus
+    }
+}
+const mapDispatchToProps = {
+    SEND_COMMENT
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddForm);
