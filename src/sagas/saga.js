@@ -1,6 +1,6 @@
 import {takeEvery, put, call} from "redux-saga/effects";
 import Service from "../service";
-import {SET_SEND_STATUS, SET_IMAGE_WITH_COMMENTS} from "../actions";
+import {GET_DATA_ASYNC, SET_SEND_STATUS, SET_IMAGE_WITH_COMMENTS, ERROR} from "../actions";
 
 const service = new Service();
 
@@ -14,9 +14,9 @@ function fetchData (){
 function* getDataAsync() {
     try {
         const data = yield call(fetchData);
-        yield put({type: "GET_DATA_ASYNC", payload: data})
+        yield put(GET_DATA_ASYNC(data))
     }catch {
-        yield put({type: "ERROR"})
+        yield put(ERROR())
     }
 
 

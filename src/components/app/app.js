@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from "react";
 import {connect} from "react-redux";
 import {GET_DATA} from "../../actions";
-import Service from "../../service";
 import Loader from "../loader/loader";
 import Image from "../image/image";
 import Modal from "../modal/modal";
@@ -9,7 +8,6 @@ import Error from "../error/error";
 
 import "./app.scss";
 
-const service = new Service();
 
 const App = ({GET_DATA, data, error}) => {
     const [loading, setLoading] = useState(false);
@@ -32,7 +30,7 @@ const App = ({GET_DATA, data, error}) => {
 
     return (
         <main className="container">
-            {modal? <Modal id={modal} trigger={setModal} service={service}/> : ""}
+            {modal? <Modal id={modal} trigger={setModal}/> : ""}
             <h1 className="main-header">Test App</h1>
             {loading? <Loader/> : ""}
             {error? <Error/> : ""}

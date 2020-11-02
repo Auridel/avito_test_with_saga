@@ -4,6 +4,13 @@ const GET_DATA = () => {
     }
 }
 
+const GET_DATA_ASYNC = (data) => {
+    return{
+        type: "GET_DATA_ASYNC",
+        payload: data
+    }
+}
+
 const SEND_COMMENT = (id, body) => {
     return{
         type: "SEND_COMMENT",
@@ -44,6 +51,7 @@ const GET_IMAGE = (id) => {
 
 export {
     GET_DATA,
+    GET_DATA_ASYNC,
     ERROR,
     SEND_COMMENT,
     SET_SEND_STATUS,
