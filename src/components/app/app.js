@@ -18,12 +18,13 @@ const App = ({GET_DATA, data, error}) => {
             setLoading(true);
             GET_DATA();
         }
-        if(data || error) {
+        else if(data || error) {
             setLoading(false);
         }
-    }, [data])
+    }, [data, error])
 
 
+    console.log(loading)
     const showModal = (id) => {
         setModal(id)
     }
